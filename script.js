@@ -3,17 +3,20 @@ window.onload = () => {
     const Sen_to_display = document.getElementById("mysentence");
     const Sen_to_type = document.getElementById("TA") //this is what we are typing
     let done = true;
-    const changes = document.addEventListener('input', () => {
+
+    Sen_to_type.addEventListener('input', () => {
         //this function is for 
         //if anychanges is done in 
         //the text box
-
+        timerClock();
         const fullSentence = Sen_to_display.querySelectorAll('span')
         const eachLetter = Sen_to_type.value.split(''); //took everything and stored in an array
+
         fullSentence.forEach((charspan, index) => {
+
             const char = eachLetter[index]; //char is the letter which we have types
 
-            if (char === null) {
+            if (char == null) {
                 charspan.classList.remove("right");
                 charspan.classList.remove("wrong");
                 done = false
@@ -29,9 +32,23 @@ window.onload = () => {
             }
         })
 
-        if (done)
+        if (done) {
+
             newSentence();
+            clearInterval(intervalId);
+            executed = false;
+
+        }
+
     })
+
+    let executed = false;
+    var timerClock = (() => {
+            if (!executed) {
+                executed = true;
+                start();
+            }
+        }) //this function is call the timer once
 
     function getsentence() {
         // var text = document.querySelector("#mysentence");
@@ -50,6 +67,15 @@ window.onload = () => {
         Sen_to_type.value = null;
     }
     newSentence();
+
+
+
+
+
+
+
+
+
     //this is the counter
     const start = () => {
         var display;
@@ -59,18 +85,26 @@ window.onload = () => {
         Timer(0, display); //passing the function
     }
 
+    let startTimer;
+
     function Timer(timer, display) {
         var min, sec;
-        setInterval(() => {
+        startTimer = new Date();
+        intervalId = setInterval(() => {
             min = parseInt(timer / 60, 10); //converting the timer to int to convert in min
             sec = parseInt(timer % 60, 10); // converting the timer to secs to convert in secs
             min = min < 10 ? "0" + min : min;
             sec = sec < 10 ? "0" + sec : sec;
             display.textContent = min + ":" + sec; //Changing the text content
-            timer++; //incrementing the timer
+
+            timer = getTime(); //incrementing the timer
+
         }, 1000);
 
 
     }
     // start();
+    function getTime() {
+        return Math.floor((new Date() - startTimer) / 1000)
+    }
 }
