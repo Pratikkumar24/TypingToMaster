@@ -1,4 +1,16 @@
 window.onload = () => {
+    const api = 'https://api.quotable.io/random';
+
+    function getsentence() {
+        // var text = document.querySelector("#mysentence");
+        return fetch(api).then(res => res.json()).then(data => data.content);
+    }
+    async function newSentence() {
+        const sentence = await getsentence();
+        console.log(sentence)
+    }
+    newSentence();
+    //this is the counter
     const start = () => {
         var display;
         display = document.querySelector('#time') //getting the display
@@ -20,5 +32,5 @@ window.onload = () => {
 
 
     }
-
+    // start();
 }
