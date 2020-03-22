@@ -4,7 +4,7 @@
 
 .container {
     background-color: yellow;
-    color: darkgreen;
+    color: darkblue;
     font-weight: bold;
     width: 80%;
     font-size: 30px;
@@ -54,4 +54,17 @@ body {
     font-family: "Comic Sans MS";
     padding: 1rem;
     resize: none;
+}
+
+.right {
+    color: green;
+}
+
+.wrong {
+    color: red;
+    text-decoration: underline;
+}
+
+.someting {
+    color: yellow;
 }

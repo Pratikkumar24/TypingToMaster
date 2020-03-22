@@ -1,5 +1,37 @@
 window.onload = () => {
     const api = 'https://api.quotable.io/random';
+    const Sen_to_display = document.getElementById("mysentence");
+    const Sen_to_type = document.getElementById("TA") //this is what we are typing
+    let done = true;
+    const changes = document.addEventListener('input', () => {
+        //this function is for 
+        //if anychanges is done in 
+        //the text box
+
+        const fullSentence = Sen_to_display.querySelectorAll('span')
+        const eachLetter = Sen_to_type.value.split(''); //took everything and stored in an array
+        fullSentence.forEach((charspan, index) => {
+            const char = eachLetter[index]; //char is the letter which we have types
+
+            if (char === null) {
+                charspan.classList.remove("right");
+                charspan.classList.remove("wrong");
+                done = false
+
+            } else if (char === charspan.innerText) {
+                charspan.classList.add("right");
+                charspan.classList.remove("wrong");
+                done = true
+            } else {
+                charspan.classList.add("wrong");
+                charspan.classList.remove("right");
+                done = false
+            }
+        })
+
+        if (done)
+            newSentence();
+    })
 
     function getsentence() {
         // var text = document.querySelector("#mysentence");
@@ -7,7 +39,15 @@ window.onload = () => {
     }
     async function newSentence() {
         const sentence = await getsentence();
-        console.log(sentence)
+
+        Sen_to_display.innerHTML = '';
+        sentence.split('').forEach(element => {
+            const charspan = document.createElement('span') //create a span for each element
+
+            charspan.innerHTML = element //adds those characters in the span 
+            Sen_to_display.appendChild(charspan); //appends by one child
+        });
+        Sen_to_type.value = null;
     }
     newSentence();
     //this is the counter
