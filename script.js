@@ -1,9 +1,11 @@
 window.onload = () => {
     const api = 'https://api.quotable.io/random';
     const Sen_to_display = document.getElementById("mysentence");
-    const Sen_to_type = document.getElementById("TA") //this is what we are typing
-    let done = true;
 
+    const Sen_to_type = document.getElementById("TA") //this is what we are typing
+    let count = 0;
+    let done = true;
+    let seconds = 0
     Sen_to_type.addEventListener('input', () => {
         //this function is for 
         //if anychanges is done in 
@@ -33,11 +35,14 @@ window.onload = () => {
         })
 
         if (done) {
-
             newSentence();
             clearInterval(intervalId);
             executed = false;
-
+            console.log("Value of timer: " + seconds);
+            console.log("Number of words: " + count)
+            min = seconds / 60
+            WPM = count / min;
+            console.log("\n WPM: " + Math.round(WPM));
         }
 
     })
@@ -56,7 +61,7 @@ window.onload = () => {
     }
     async function newSentence() {
         const sentence = await getsentence();
-
+        CountWords(sentence);
         Sen_to_display.innerHTML = '';
         sentence.split('').forEach(element => {
             const charspan = document.createElement('span') //create a span for each element
@@ -67,28 +72,30 @@ window.onload = () => {
         Sen_to_type.value = null;
     }
     newSentence();
+    //*******This function is used to count the number of words******** */
 
-
-
-
-
-
-
-
-
-    //this is the counter
-    const start = () => {
-        var display;
-        display = document.querySelector('#time') //getting the display
-
-
-        Timer(0, display); //passing the function
+    function CountWords(str) {
+        count = str.split(" ").length;
     }
 
+    //***************************************************************** */
+    //this is the counter
+    const start = () => {
+            var display;
+            display = document.querySelector('#time') //getting the display
+
+
+            Timer(0, display); //passing the function
+        }
+        //updating the value of timer to count it for calculation
+    function updatetimer(time) {
+        seconds = time;
+    }
     let startTimer;
 
     function Timer(timer, display) {
         var min, sec;
+
         startTimer = new Date();
         intervalId = setInterval(() => {
             min = parseInt(timer / 60, 10); //converting the timer to int to convert in min
@@ -98,6 +105,7 @@ window.onload = () => {
             display.textContent = min + ":" + sec; //Changing the text content
 
             timer = getTime(); //incrementing the timer
+            updatetimer(timer);
 
         }, 1000);
 
