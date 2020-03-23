@@ -1,16 +1,19 @@
 window.onload = () => {
     const api = 'https://api.quotable.io/random';
     const Sen_to_display = document.getElementById("mysentence");
+    const Result_declaration = document.getElementById("Result");
 
     const Sen_to_type = document.getElementById("TA") //this is what we are typing
     let count = 0;
     let done = true;
     let seconds = 0
+
     Sen_to_type.addEventListener('input', () => {
         //this function is for 
         //if anychanges is done in 
         //the text box
         timerClock();
+        rearrive();
         const fullSentence = Sen_to_display.querySelectorAll('span')
         const eachLetter = Sen_to_type.value.split(''); //took everything and stored in an array
 
@@ -38,15 +41,28 @@ window.onload = () => {
             newSentence();
             clearInterval(intervalId);
             executed = false;
-            console.log("Value of timer: " + seconds);
-            console.log("Number of words: " + count)
+            over = false;
             min = seconds / 60
             WPM = count / min;
-            console.log("\n WPM: " + Math.round(WPM));
+            document.querySelector('#time').innerHTML = "00:00"
+            Result_declaration.innerHTML = "   ...........Wait Loading.................."
+            setTimeout(() => {
+                Result_declaration.classList.add("result_color")
+                Result_declaration.innerHTML = "Your Speed was : " + Math.round(WPM) + " WPM" + "<br> Time taken : " + seconds + " secs";
+            }, 3000)
+
+
         }
 
     })
+    let over = false;
 
+    function rearrive() {
+        if (!over) {
+            over = true;
+            Result_declaration.innerHTML = "Calculating wpm....."
+        }
+    }
     let executed = false;
     var timerClock = (() => {
             if (!executed) {
